@@ -75,11 +75,14 @@ public class JobData {
 
         ArrayList<HashMap<String, String>> jobs = new ArrayList<>();
 
+        String valueUp = value.toUpperCase();
+
         for (HashMap<String, String> row : allJobs) {
 
             String aValue = row.get(column);
-
-            if (aValue.contains(value)) {
+            String aValueUp = value.toUpperCase();
+            // the .contains method isnt as effective as .equals which will return jobs exactly matching search term
+            if (aValue.equals(valueUp)) {
                 jobs.add(row);
             }
         }
@@ -99,7 +102,36 @@ public class JobData {
         loadData();
 
         // TODO - implement this method
-        return null;
+        ArrayList<HashMap<String, String>> jobs = new ArrayList<>();
+
+        String valueUp = value.toUpperCase();
+        //loop through all the jobs
+        for (HashMap<String, String> row : allJobs) {
+            boolean found = false;
+            //loop through all the columns of current job
+            for (String column : row.keySet()) {
+                String currentValue = row.get(column);
+                //it will make the search case-insensitive and match the test
+                String currentValueUp = currentValue.toUpperCase();
+                if (currentValueUp.equals(valueUp)) {
+                    // same as the top "findByColumnAndValue" where at least one field exactly matches the search term.
+                    // check if the job is already in the "jobs"
+                    for (HashMap<String, String> job : jobs) {
+                        if (job.equals(row)) {
+                            found = true;
+                            break;
+                        }
+                    }
+                    // if the job is not in the jobs ArrayList
+                    if (!found) {
+                        jobs.add(row);
+
+                    }
+                    break;
+                }
+            }
+        }
+        return jobs;
     }
 
     /**
