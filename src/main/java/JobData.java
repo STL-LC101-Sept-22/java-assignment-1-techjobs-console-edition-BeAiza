@@ -80,13 +80,13 @@ public class JobData {
         for (HashMap<String, String> row : allJobs) {
 
             String aValue = row.get(column);
-            String aValueUp = value.toUpperCase();
-            // the .contains method isnt as effective as .equals which will return jobs exactly matching search term
-            if (aValue.equals(valueUp)) {
-                jobs.add(row);
+            if (aValue != null) {
+                String aValueUp = aValue.toUpperCase();
+                if (aValueUp.equals(valueUp)) {
+                    jobs.add(row);
+                }
             }
         }
-
         return jobs;
     }
 
@@ -107,27 +107,16 @@ public class JobData {
         String valueUp = value.toUpperCase();
         //loop through all the jobs
         for (HashMap<String, String> row : allJobs) {
-            boolean found = false;
             //loop through all the columns of current job
             for (String column : row.keySet()) {
                 String currentValue = row.get(column);
-                //it will make the search case-insensitive and match the test
-                String currentValueUp = currentValue.toUpperCase();
-                if (currentValueUp.equals(valueUp)) {
+                if (currentValue != null) {
                     // same as the top "findByColumnAndValue" where at least one field exactly matches the search term.
-                    // check if the job is already in the "jobs"
-                    for (HashMap<String, String> job : jobs) {
-                        if (job.equals(row)) {
-                            found = true;
-                            break;
-                        }
-                    }
-                    // if the job is not in the jobs ArrayList
-                    if (!found) {
+                    String currentValueUp = currentValue.toUpperCase();
+                    if (currentValueUp.equals(valueUp)) {
                         jobs.add(row);
-
+                        break;
                     }
-                    break;
                 }
             }
         }
