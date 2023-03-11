@@ -75,15 +75,18 @@ public class JobData {
 
         ArrayList<HashMap<String, String>> jobs = new ArrayList<>();
 
+        String valueUp = value.toUpperCase();
+
         for (HashMap<String, String> row : allJobs) {
 
             String aValue = row.get(column);
-
-            if (aValue.contains(value)) {
-                jobs.add(row);
+            if (aValue != null) {
+                String aValueUp = aValue.toUpperCase();
+                if (aValueUp.equals(valueUp)) {
+                    jobs.add(row);
+                }
             }
         }
-
         return jobs;
     }
 
@@ -99,7 +102,25 @@ public class JobData {
         loadData();
 
         // TODO - implement this method
-        return null;
+        ArrayList<HashMap<String, String>> jobs = new ArrayList<>();
+
+        String valueUp = value.toUpperCase();
+        //loop through all the jobs
+        for (HashMap<String, String> row : allJobs) {
+            //loop through all the columns of current job
+            for (String column : row.keySet()) {
+                String currentValue = row.get(column);
+                if (currentValue != null) {
+                    // same as the top "findByColumnAndValue" where at least one field exactly matches the search term.
+                    String currentValueUp = currentValue.toUpperCase();
+                    if (currentValueUp.equals(valueUp)) {
+                        jobs.add(row);
+                        break;
+                    }
+                }
+            }
+        }
+        return jobs;
     }
 
     /**
